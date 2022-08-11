@@ -13,6 +13,6 @@ public class UserController {
 
     @GetMapping("/user/info")
     public Result getUserInfo() {
-        return Result.success(Cache.userInfoMap);
+        return Result.success(Cache.USER_INFO_MAP);
     }
 }

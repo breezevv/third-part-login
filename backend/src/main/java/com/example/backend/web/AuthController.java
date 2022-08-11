@@ -52,14 +52,15 @@ public class AuthController {
         Map<String, String> accessTokenMap = objectMapper.readValue(accessTokenStr, Map.class);
         String userInfoStr = HttpUtil.get("https://gitee.com/api/v5/user?access_token=" + accessTokenMap.get("access_token"));
         Map<String, String> userInfo = objectMapper.readValue(userInfoStr, Map.class);
-        // 执行自己的业务逻辑
-        Cache.userInfoMap.put("avatar", userInfo.get("avatar_url"));
-        Cache.userInfoMap.put("nickname", userInfo.get("name"));
-        Cache.userInfoMap.put("roles", "['admin']");
-        Cache.userInfoMap.put("introduction", "I am a super administrator");
+        // 执行自己的业务逻辑，可以将用户信息存在数据库里
+        Cache.USER_INFO_MAP.put("avatar", userInfo.get("avatar_url"));
+        Cache.USER_INFO_MAP.put("nickname", userInfo.get("name"));
+        Cache.USER_INFO_MAP.put("roles", "['admin']");
+        Cache.USER_INFO_MAP.put("introduction", "I am a super administrator");
         // 创建自己应用的 token
+        String token = "admin-token";
 
         // 让前端获取到 token
-        response.sendRedirect("http://localhost:9527/#/auth-redirect?token=admin-token");
+        response.sendRedirect("http://localhost:9527/#/auth-redirect?token=" + token);
     }
 }
