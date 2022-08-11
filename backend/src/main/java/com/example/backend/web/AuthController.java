@@ -27,11 +27,11 @@ public class AuthController {
     @Resource
     private ObjectMapper objectMapper;
 
-    @GetMapping("hello")
-    public String hello() {
-        return "hello";
-    }
-
+    /**
+     * 返回授权地址
+     * @param source
+     * @return
+     */
     @GetMapping("url/{source}")
     public Result getAuthorizationUrl(@PathVariable String source) {
         Result result = null;
@@ -48,9 +48,12 @@ public class AuthController {
         // 回调会携带code，通过 code 请求 access_token
         String accessTokenUrl = String.format("https://gitee.com/oauth/token?grant_type=authorization_code&" +
                 "code=%s&client_id=%s&redirect_uri=%s&client_secret=%s", code, clientId, redirectUrl, clientSecret);
+        // 获得 access_token，并解析
         String accessTokenStr = HttpUtil.post(accessTokenUrl, "");
         Map<String, String> accessTokenMap = objectMapper.readValue(accessTokenStr, Map.class);
+        // 去资源服务器获取用户资源，携带 access_token
         String userInfoStr = HttpUtil.get("https://gitee.com/api/v5/user?access_token=" + accessTokenMap.get("access_token"));
+        // 获取到了用户资源
         Map<String, String> userInfo = objectMapper.readValue(userInfoStr, Map.class);
         // 执行自己的业务逻辑，可以将用户信息存在数据库里
         Cache.USER_INFO_MAP.put("avatar", userInfo.get("avatar_url"));
