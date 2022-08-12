@@ -61,7 +61,7 @@ public class AuthController {
         Cache.USER_INFO_MAP.put("roles", "['admin']");
         Cache.USER_INFO_MAP.put("introduction", "I am a super administrator");
         // 创建自己应用的 token
-        String token = "admin-token";
+        String token = "abc";
 
         // 让前端获取到 token
         response.sendRedirect("http://localhost:9527/#/auth-redirect?token=" + token);
