@@ -32,7 +32,10 @@ export default {
       // openWindow(url, thirdpart, 540, 540)
     },
     tencentHandleClick(thirdpart) {
-      alert('ok')
+      getAuthorizationUrl('github').then(response => {
+        const authorization_url = response.data
+        openWindow(authorization_url, 'gitee', 540, 540)
+      })
       // this.$store.commit('SET_AUTH_TYPE', thirdpart)
       // const client_id = 'xxxxx'
       // const redirect_uri = encodeURIComponent('xxx/redirect?redirect=' + window.location.origin + '/auth-redirect')

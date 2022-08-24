@@ -10,7 +10,7 @@ export function login(data) {
 
 export function getInfo(token) {
   return request({
-    url: 'http://localhost:8080/user/info',
+    url: 'http://192.168.199.130:8080/user/info',
     method: 'get',
     params: { token }
   })
@@ -25,7 +25,7 @@ export function logout() {
 
 export function getAuthorizationUrl(source) {
   return request({
-    url: 'http://localhost:8080/auth/url/' + source,
+    url: 'http://192.168.199.130:8080/auth/url/' + source,
     method: 'get'
   })
 }
