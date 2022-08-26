@@ -5,6 +5,7 @@
 1. 启动`vue-element-admin`项目
     + 先执行`npm install`安装依赖
     + 再执行`npm run dev`命令启动项目
+    + 修改 `api/user.js`中`getInfo`和`getAuthorizationUrl`方法中的地址
     + 注意：可以修改该项目中的端口，也可以不做修改（默认9527），如修改端口，需要修改`backend`中的内容
 2. 启动`backend`项目
    + 修改`AuthController`中的`clientId`和`clientSecret`
