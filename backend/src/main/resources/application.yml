@@ -1,2 +1,18 @@
 server:
   port: 8080
+
+oauth2:
+  gitee:
+    clientId: b8ce581c2e108df37e6ff0c06a07996538ba10dc111f9c723896f11bf79bf505
+    clientSecret: f21d79c79aa8d0b3f4ce98d25d7ffae1426569d38a09a1d6543460de248d7612
+    redirectUrl: "http://${custom.backend.host}:${custom.backend.port}/auth/callback/gitee"
+  github:
+    clientId: cbd5c7fce137455d770a
+    clientSecret: 94b03d3ff415a9feb1eebe5cf35e199f55396151
+
+custom:
+  backend:
+    host: server.zhengjunren.com
+    port: ${server.port}
+  frontend:
+    redirectUrl: "http://server.zhengjunren.com/#/auth-redirect"

@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend.constant;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,6 +1,6 @@
 package com.example.backend.web;
 
-import com.example.backend.Cache;
+import com.example.backend.constant.Cache;
 import com.example.backend.dto.Result;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

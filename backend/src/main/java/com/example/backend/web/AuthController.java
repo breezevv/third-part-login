@@ -2,9 +2,10 @@ package com.example.backend.web;
 
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
-import com.example.backend.Cache;
+import com.example.backend.constant.Cache;
 import com.example.backend.dto.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,12 +25,31 @@ import java.util.Map;
 @CrossOrigin("*")
 public class AuthController {
 
-    String giteeClientId = "b8ce581c2e108df37e6ff0c06a07996538ba10dc111f9c723896f11bf79bf505";
-    String giteeClientSecret = "f21d79c79aa8d0b3f4ce98d25d7ffae1426569d38a09a1d6543460de248d7612";
-    String giteeRedirectUrl = "http://localhost:8080/auth/callback/gitee";
 
-    String githubClientId = "cbd5c7fce137455d770a";
-    String githubClientSecret = "94b03d3ff415a9feb1eebe5cf35e199f55396151";
+
+    @Value("${custom.frontend.redirectUrl}")
+    private String frontendRedirectUrl;
+
+    @Value("${custom.backend.host}")
+    private String backendHost;
+
+    @Value("${custom.backend.port}")
+    private String backendPort;
+
+    @Value("${oauth2.gitee.clientId}")
+    private String giteeClientId;
+
+    @Value("${oauth2.gitee.clientSecret}")
+    private String giteeClientSecret;
+
+    @Value("${oauth2.gitee.redirectUrl}")
+    private String giteeRedirectUrl;
+
+    @Value("${oauth2.github.clientId}")
+    private String githubClientId;
+
+    @Value("${oauth2.github.clientSecret}")
+    private String githubClientSecret;
 
     @Resource
     private ObjectMapper objectMapper;
@@ -73,9 +95,15 @@ public class AuthController {
         String token = "abc";
 
         // 让前端获取到 token
-        response.sendRedirect("http://192.168.199.130:9527/#/auth-redirect?token=" + token);
+        response.sendRedirect(getFrontendRedirectLocation(token));
     }
 
+    /**
+     * github
+     * @param code
+     * @param response
+     * @throws IOException
+     */
     @GetMapping("callback/github")
     public void githubCallback(String code, HttpServletResponse response) throws IOException {
         String url = String.format("https://github.com/login/oauth/access_token?client_id=%s&client_secret=%s&code=%s",
@@ -102,7 +130,33 @@ public class AuthController {
         // 创建自己应用的 token
         String token = "abc";
 
+
         // 让前端获取到 token
-        response.sendRedirect("http://192.168.199.130:9527/#/auth-redirect?token=" + token);
+        response.sendRedirect(getFrontendRedirectLocation(token));
+    }
+
+    /**
+     * 前端的回调地址，携带 token
+     * @param token
+     * @return
+     */
+    private String getFrontendRedirectLocation(String token) {
+        return frontendRedirectUrl + "?token" + token;
+    }
+
+    /**
+     * 测试
+     * @param source
+     * @return
+     */
+    @GetMapping("/hello")
+    public List<String> hello(String source) {
+        List<String> list = new ArrayList<>();
+        list.add(giteeClientId);
+        list.add(giteeClientSecret);
+        list.add(giteeRedirectUrl);
+        list.add(githubClientId);
+        list.add(githubClientSecret);
+        return list;
     }
 }
